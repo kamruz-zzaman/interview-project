@@ -96,7 +96,7 @@ const ModalA = ({ modalShow, setModalShow }) => {
         </Modal.Header>
         <Modal.Body
           className="modal-body-height"
-          onScroll={handleScroll}
+          //   onScroll={handleScroll}
           //   ref={modalContentRef}
         >
           <form onSubmit={handleSeachSubmit}>
