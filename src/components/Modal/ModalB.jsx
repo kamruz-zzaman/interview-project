@@ -16,6 +16,7 @@ const ModalB = ({ modalShow, setModalShow }) => {
   const [detailsModalShow, setDetailsModalShow] = useState(false);
   const [selectedData, setSelectedData] = useState(false);
 
+  //   calling api here
   const fetchContacts = (pageNumber, search) => {
     setIsLoading(true);
     getUsContacts(pageNumber, search)
@@ -27,10 +28,13 @@ const ModalB = ({ modalShow, setModalShow }) => {
         console.log(err);
       });
   };
+
+  //   when render calling the api
   useEffect(() => {
     fetchContacts(page, searchValue);
   }, []);
 
+  //   after search anything calling api
   const handleContactSearch = (e) => {
     const query = e.target.value;
     setSearchValue(query);
@@ -39,11 +43,13 @@ const ModalB = ({ modalShow, setModalShow }) => {
     }, 1000);
   };
 
+  // after hitting enter for make search
   const handleSeachSubmit = (e) => {
     e.preventDefault();
     fetchContacts(page, searchValue);
   };
 
+  //   for change perpage data
   const handlePageChange = (type) => {
     if (type === "next") {
       setPage(page + 1);
@@ -53,6 +59,8 @@ const ModalB = ({ modalShow, setModalShow }) => {
       fetchContacts(page - 1, searchValue);
     }
   };
+
+  // for show the details modal
   const handleDetailsView = (data) => {
     setSelectedData(data);
     setDetailsModalShow(true);
@@ -80,7 +88,7 @@ const ModalB = ({ modalShow, setModalShow }) => {
             US Contacts
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="modal-body-height">
           <form onSubmit={handleSeachSubmit}>
             <input
               className="w-75 px-2 py-1"

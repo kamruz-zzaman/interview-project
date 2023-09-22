@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import ModalA from "./Modal/ModalA";
 import ModalB from "./Modal/ModalB";
 
 const UsContacts = () => {

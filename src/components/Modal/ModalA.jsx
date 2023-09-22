@@ -1,10 +1,8 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { getAllContacts } from "../../Apis/contacts";
 import { Spinner } from "react-bootstrap";
-import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import ModalC from "./ModalC";
 
@@ -15,10 +13,11 @@ const ModalA = ({ modalShow, setModalShow }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isEven, setIsEven] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-  const modalContentRef = useRef(null);
+  //   const modalContentRef = useRef(null);
   const [detailsModalShow, setDetailsModalShow] = useState(false);
   const [selectedData, setSelectedData] = useState(false);
 
+  //   calling api here
   const fetchContacts = (pageNumber, search) => {
     setIsLoading(true);
     getAllContacts(pageNumber, search)
@@ -30,10 +29,13 @@ const ModalA = ({ modalShow, setModalShow }) => {
         console.log(err);
       });
   };
+
+  //   when render calling the api
   useEffect(() => {
     fetchContacts(page, searchValue);
   }, []);
 
+  //   after search anything calling api
   const handleContactSearch = (e) => {
     const query = e.target.value;
     setSearchValue(query);
@@ -42,12 +44,15 @@ const ModalA = ({ modalShow, setModalShow }) => {
     }, 1000);
   };
 
+  // after hitting enter for make search
   const handleSeachSubmit = (e) => {
     e.preventDefault();
     fetchContacts(page, searchValue);
   };
 
+  //   for change perpage data
   const handlePageChange = (type) => {
+    console.log("dat");
     if (type === "next") {
       setPage(page + 1);
       fetchContacts(page + 1, searchValue);
@@ -57,17 +62,11 @@ const ModalA = ({ modalShow, setModalShow }) => {
     }
   };
 
-  const handleScroll = () => {
-    const modalContent = modalContentRef.current;
-    if (
-      modalContent &&
-      modalContent.scrollTop + modalContent.clientHeight ===
-        modalContent.scrollHeight
-    ) {
-      handlePageChange("next");
-    }
-  };
+  //   const handleScroll = () => {
+  //     handlePageChange("next");
+  //   };
 
+  // for show the details modal
   const handleDetailsView = (data) => {
     setSelectedData(data);
     setDetailsModalShow(true);
@@ -95,7 +94,11 @@ const ModalA = ({ modalShow, setModalShow }) => {
             All Contacts
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body onScroll={handleScroll} ref={modalContentRef}>
+        <Modal.Body
+          className="modal-body-height"
+          onScroll={handleScroll}
+          //   ref={modalContentRef}
+        >
           <form onSubmit={handleSeachSubmit}>
             <input
               className="w-75 px-2 py-1"

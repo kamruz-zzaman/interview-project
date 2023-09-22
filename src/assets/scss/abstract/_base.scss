@@ -18,3 +18,8 @@
 .selectable-row{
     cursor: pointer;
 }
+
+.modal-body-height{
+    max-height: 500px;
+  overflow-y: auto;
+}
