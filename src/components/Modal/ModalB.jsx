@@ -1,24 +1,20 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { getAllContacts } from "../../Apis/contacts";
+import { getUsContacts } from "../../Apis/contacts";
 import { Spinner } from "react-bootstrap";
-import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-const ModalA = ({ modalShow, setModalShow }) => {
+const ModalB = ({ modalShow, setModalShow }) => {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [contactData, setContactData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [isEven, setIsEven] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-  const modalContentRef = useRef(null);
-
   const fetchContacts = (pageNumber, search) => {
     setIsLoading(true);
-    getAllContacts(pageNumber, search)
+    getUsContacts(pageNumber, search)
       .then((res) => {
         setContactData(res);
         setIsLoading(false);
@@ -47,17 +43,6 @@ const ModalA = ({ modalShow, setModalShow }) => {
     }
   };
 
-  const handleScroll = () => {
-    const modalContent = modalContentRef.current;
-    if (
-      modalContent &&
-      modalContent.scrollTop + modalContent.clientHeight ===
-        modalContent.scrollHeight
-    ) {
-      handlePageChange("next");
-    }
-  };
-
   return (
     <>
       <Modal
@@ -72,10 +57,10 @@ const ModalA = ({ modalShow, setModalShow }) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            All Contacts
+            US Contacts
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body onScroll={handleScroll} ref={modalContentRef}>
+        <Modal.Body>
           <div className="form-group">
             <input
               className="w-100 px-2 py-1"
@@ -180,4 +165,4 @@ const ModalA = ({ modalShow, setModalShow }) => {
   );
 };
 
-export default ModalA;
+export default ModalB;
