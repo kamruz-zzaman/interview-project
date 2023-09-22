@@ -42,6 +42,11 @@ const ModalA = ({ modalShow, setModalShow }) => {
     }, 1000);
   };
 
+  const handleSeachSubmit = (e) => {
+    e.preventDefault();
+    fetchContacts(page, searchValue);
+  };
+
   const handlePageChange = (type) => {
     if (type === "next") {
       setPage(page + 1);
@@ -91,14 +96,15 @@ const ModalA = ({ modalShow, setModalShow }) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body onScroll={handleScroll} ref={modalContentRef}>
-          <div className="form-group">
+          <form onSubmit={handleSeachSubmit}>
             <input
-              className="w-100 px-2 py-1"
+              className="w-75 px-2 py-1"
               type="text"
               onChange={handleContactSearch}
               placeholder="Search here..."
             />
-          </div>
+            <Button className="ms-4">Search</Button>
+          </form>
           {isLoading ? (
             <div className="d-flex justify-content-center align-items-center">
               <Spinner animation="border" />
