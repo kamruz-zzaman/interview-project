@@ -6,6 +6,7 @@ import { getAllContacts } from "../../Apis/contacts";
 import { Spinner } from "react-bootstrap";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import ModalC from "./ModalC";
 
 const ModalA = ({ modalShow, setModalShow }) => {
   const navigate = useNavigate();
@@ -15,6 +16,8 @@ const ModalA = ({ modalShow, setModalShow }) => {
   const [isEven, setIsEven] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const modalContentRef = useRef(null);
+  const [detailsModalShow, setDetailsModalShow] = useState(false);
+  const [selectedData, setSelectedData] = useState(false);
 
   const fetchContacts = (pageNumber, search) => {
     setIsLoading(true);
@@ -34,7 +37,9 @@ const ModalA = ({ modalShow, setModalShow }) => {
   const handleContactSearch = (e) => {
     const query = e.target.value;
     setSearchValue(query);
-    fetchContacts(page, query);
+    setTimeout(() => {
+      fetchContacts(page, query);
+    }, 1000);
   };
 
   const handlePageChange = (type) => {
@@ -58,8 +63,18 @@ const ModalA = ({ modalShow, setModalShow }) => {
     }
   };
 
+  const handleDetailsView = (data) => {
+    setSelectedData(data);
+    setDetailsModalShow(true);
+  };
+
   return (
     <>
+      <ModalC
+        modalShow={detailsModalShow}
+        setModalShow={setDetailsModalShow}
+        data={selectedData}
+      />
       <Modal
         show={modalShow}
         onHide={() => {
@@ -101,13 +116,21 @@ const ModalA = ({ modalShow, setModalShow }) => {
                   ? contactData?.results
                       ?.filter((fill) => fill.id % 2 === 0)
                       .map((data, i) => (
-                        <tr key={i}>
+                        <tr
+                          className="selectable-row"
+                          onClick={() => handleDetailsView(data)}
+                          key={i}
+                        >
                           <td>{data?.phone}</td>
                           <td>{data?.country?.name}</td>
                         </tr>
                       ))
                   : contactData?.results?.map((data, i) => (
-                      <tr key={i}>
+                      <tr
+                        className="selectable-row"
+                        onClick={() => handleDetailsView(data)}
+                        key={i}
+                      >
                         <td>{data?.phone}</td>
                         <td>{data?.country?.name}</td>
                       </tr>
